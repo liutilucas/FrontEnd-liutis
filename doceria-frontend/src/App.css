@@ -1,0 +1,316 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #f4f4f9; 
+  color: #333;
+}
+
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.product-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;  
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: translateY(-5px); 
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; 
+}
+
+.product-name {
+  font-size: 1.25rem;
+  margin: 15px;
+}
+
+.product-description {
+  font-size: 0.9rem;
+  margin: 0 15px 15px 15px;
+  flex-grow: 1; 
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-top: 1px solid #eee;
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2a9d8f;
+}
+
+.add-to-cart-button {
+  background-color: #264653;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.add-to-cart-button:hover {
+  background-color: #f4a261;
+}
+
+.app-header {
+  position: relative;
+}
+
+.cart-icon-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.cart-item-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #e76f51;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.cart-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.cart-modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.cart-item-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-total {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+.address-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.address-section label {
+  margin-bottom: 5px;
+}
+
+.address-section input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.finalize-button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background-color: #2a9d8f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.finalize-button:hover {
+  background-color: #264653;
+}
+
+.cart-item {
+  align-items: center; 
+}
+
+.item-name {
+  flex-grow: 1;
+}
+
+.item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 20px;
+}
+
+.item-controls button {
+  background-color: #eee;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item-controls button:hover {
+  background-color: #ddd;
+}
+
+.address-section h3 {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.address-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.address-form-grid .rua-input,
+.address-form-grid .complemento-input {
+  grid-column: 1 / -1;
+}
+
+.address-form-grid input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.app-header {
+  position: relative;
+  background-color: #F1E4D3;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+/* Agrupa a logo e os títulos */
+.header-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo {
+  height: 80px;
+  width: auto;
+}
+
+.header-titles {
+  text-align: center;
+}
+
+.header-titles h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #A67B5B;
+  margin: 0;
+}
+
+.header-titles h2 {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.1rem;
+  color: #E76F8E;
+  margin: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cart-icon-wrapper {
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.cart-item-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #e76f51;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
