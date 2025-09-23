@@ -14,7 +14,7 @@ function ProductFormPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const isEditing = Boolean(id);ção
+  const isEditing = Boolean(id)
 
   useEffect(() => {
     if (isEditing) {
