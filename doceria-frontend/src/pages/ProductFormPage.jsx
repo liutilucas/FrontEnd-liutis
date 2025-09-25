@@ -21,7 +21,7 @@ function ProductFormPage() {
       setLoading(true);
       const fetchProduto = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/api/produtos/${id}`, {
+          const response = await fetch(`https://backend-liutis-production.up.railway.app/api/produtos/${id}`, {
             headers: { 'Authorization': `Basic ${auth}` }
           });
           if (response.ok) {
@@ -48,7 +48,7 @@ function ProductFormPage() {
     e.preventDefault();
 
     const produtoData = { nome, descricao, preco: parseFloat(preco), imagemUrl };
-    const url = isEditing ? `http://localhost:8080/api/produtos/${id}` : 'http://localhost:8080/api/produtos';
+    const url = isEditing ? `https://backend-liutis-production.up.railway.app/api/produtos/${id}` : 'https://backend-liutis-production.up.railway.app/api/produtos/';
     const method = isEditing ? 'PUT' : 'POST';
 
     try {

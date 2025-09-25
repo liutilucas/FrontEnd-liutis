@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
     const token = btoa(`${username}:${password}`); 
 
     try {
-      const response = await fetch('http://localhost:8080/api/produtos/login-check', {
+      const response = await fetch('https://backend-liutis-production.up.railway.app/api/produtos/login-check', {
         headers: {
           'Authorization': `Basic ${token}`
         }

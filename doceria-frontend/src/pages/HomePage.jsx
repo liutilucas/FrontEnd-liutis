@@ -11,7 +11,7 @@ function HomePage() {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/produtos');
+        const response = await fetch('https://backend-liutis-production.up.railway.app/api/produtos/');
         const data = await response.json();
         console.log("DADOS RECEBIDOS PELA API DENTRO DO REACT:", data);
         setProdutos(data);

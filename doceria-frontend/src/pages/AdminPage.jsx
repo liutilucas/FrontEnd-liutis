@@ -15,7 +15,7 @@ function AdminPage() {
     const fetchProdutos = async () => {
       if (!auth) return;
       try {
-        const response = await fetch('http://localhost:8080/api/produtos', {
+        const response = await fetch('https://backend-liutis-production.up.railway.app/api/produtos/', {
           headers: { 'Authorization': `Basic ${auth}` }
         });
         if (response.ok) {
@@ -46,7 +46,7 @@ function AdminPage() {
     if (!productId) return;
 
     try {
-      const response = await fetch(`http://localhost:8080/api/produtos/${productId}`, {
+      const response = await fetch(`https://backend-liutis-production.up.railway.app/api/produtos/${productId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Basic ${auth}` }
       });
