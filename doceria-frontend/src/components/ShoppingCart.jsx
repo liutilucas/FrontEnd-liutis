@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 function ShoppingCart({ cartItems, onClose, onFinalize, onIncrease, onDecrease }) {
   const [cep, setCep] = useState('');
@@ -6,6 +7,7 @@ function ShoppingCart({ cartItems, onClose, onFinalize, onIncrease, onDecrease }
   const [bairro, setBairro] = useState('');
   const [numero, setNumero] = useState('');
   const [complemento, setComplemento] = useState('');
+  const [isCepLoading, setIsCepLoading] = useState(false);
 
   const total = cartItems.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
 
@@ -14,12 +16,13 @@ function ShoppingCart({ cartItems, onClose, onFinalize, onIncrease, onDecrease }
     setCep(cepValue);
 
     if (cepValue.length === 8) {
+      setIsCepLoading(true);
       try {
         const response = await fetch(`https://viacep.com.br/ws/${cepValue}/json/`);
         const data = await response.json();
         
         if (data.erro) {
-          alert('CEP não encontrado. Por favor, verifique.');
+          toast.warn('CEP não encontrado. Por favor, verifique.');
           setRua('');
           setBairro('');
         } else {
@@ -28,14 +31,16 @@ function ShoppingCart({ cartItems, onClose, onFinalize, onIncrease, onDecrease }
         }
       } catch (error) {
         console.error("Erro ao buscar CEP:", error);
-        alert('Não foi possível buscar o CEP. Tente novamente.');
+        toast.error('Não foi possível buscar o CEP. Tente novamente.');
+      } finally {
+        setIsCepLoading(false);
       }
     }
   };
 
   const handleFinalize = () => {
     if (!cep || !rua || !numero) {
-      alert('Por favor, preencha o CEP, Rua e Número para a entrega.');
+      toast.error('Por favor, preencha o CEP, Rua e Número para a entrega.');
       return;
     }
 
@@ -82,38 +87,15 @@ function ShoppingCart({ cartItems, onClose, onFinalize, onIncrease, onDecrease }
                   type="text"
                   value={cep}
                   onChange={handleCepChange}
-                  placeholder="CEP (só números)"
+                  placeholder={isCepLoading ? "Buscando..." : "CEP (só números)"}
                   maxLength="8"
                   className="cep-input"
+                  disabled={isCepLoading}
                 />
-                <input
-                  type="text"
-                  value={rua}
-                  onChange={(e) => setRua(e.target.value)}
-                  placeholder="Rua / Logradouro"
-                  className="rua-input"
-                />
-                <input
-                  type="text"
-                  value={bairro}
-                  onChange={(e) => setBairro(e.target.value)}
-                  placeholder="Bairro"
-                  className="bairro-input"
-                />
-                <input
-                  type="text"
-                  value={numero}
-                  onChange={(e) => setNumero(e.target.value)}
-                  placeholder="Número"
-                  className="numero-input"
-                />
-                <input
-                  type="text"
-                  value={complemento}
-                  onChange={(e) => setComplemento(e.target.value)}
-                  placeholder="Complemento (opcional)"
-                  className="complemento-input"
-                />
+                <input type="text" value={rua} onChange={(e) => setRua(e.target.value)} placeholder="Rua / Logradouro" className="rua-input" />
+                <input type="text" value={bairro} onChange={(e) => setBairro(e.target.value)} placeholder="Bairro" className="bairro-input" />
+                <input type="text" value={numero} onChange={(e) => setNumero(e.target.value)} placeholder="Número" className="numero-input" required />
+                <input type="text" value={complemento} onChange={(e) => setComplemento(e.target.value)} placeholder="Complemento (opcional)" className="complemento-input" />
               </div>
             </div>
 

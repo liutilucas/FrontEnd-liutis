@@ -6,19 +6,28 @@ function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
-    const success = await login(username, password);
+    setIsLoading(true); 
 
-    if (success) {
-      navigate('/admin');
-    } else {
-      setError('Usuário ou senha inválidos.');
+    try {
+      const success = await login(username, password);
+
+      if (success) {
+        navigate('/admin');
+      } else {
+        setError('Usuário ou senha inválidos.');
+      }
+    } catch (err) {
+      setError('Não foi possível conectar ao servidor. Tente novamente.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -34,6 +43,8 @@ function LoginPage() {
             id="username" 
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            disabled={isLoading}
+            required
           />
         </div>
         <div className="form-group">
@@ -43,10 +54,15 @@ function LoginPage() {
             id="password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+            required
           />
         </div>
         {error && <p className="error-message">{error}</p>}
-        <button type="submit" className="login-button">Entrar</button>
+        
+        <button type="submit" className="login-button" disabled={isLoading}>
+          {isLoading ? 'Entrando...' : 'Entrar'}
+        </button>
         
         <Link to="/" className="back-link">Voltar para a loja</Link>
       </form>

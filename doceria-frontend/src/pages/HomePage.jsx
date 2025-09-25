@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
 import ShoppingCart from '../components/ShoppingCart';
 
+const API_URL = import.meta.env.VITE_API_URL;
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER;
+
 function HomePage() {
   const [cart, setCart] = useState([]);
   const [isCartVisible, setIsCartVisible] = useState(false);
@@ -11,12 +14,12 @@ function HomePage() {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await fetch('https://backend-liutis-production.up.railway.app/api/produtos/');
+        const response = await fetch(`${API_URL}/api/produtos`);
         const data = await response.json();
-        console.log("DADOS RECEBIDOS PELA API DENTRO DO REACT:", data);
         setProdutos(data);
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
+
       } finally {
         setLoading(false);
       }
@@ -25,10 +28,6 @@ function HomePage() {
   }, []);
 
   const handleAddToCart = (produto) => {
-    handleIncreaseQuantity(produto);
-  };
-
-  const handleIncreaseQuantity = (produto) => {
     const productInCart = cart.find(item => item.id === produto.id);
     if (productInCart) {
       setCart(cart.map(item =>
@@ -55,7 +54,7 @@ function HomePage() {
       alert("Seu carrinho está vazio!");
       return;
     }
-    const numeroIrmao = "5511973277529";
+    
     const total = cart.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
     let mensagem = "Olá! Gostaria de fazer um novo pedido:\n\n";
     cart.forEach(item => {
@@ -63,8 +62,10 @@ function HomePage() {
     });
     mensagem += `\n*Total:* R$ ${total.toFixed(2)}\n\n`;
     mensagem += `*Endereço para entrega:*\n${endereco}`;
+    
     const mensagemCodificada = encodeURIComponent(mensagem);
-    const urlWhatsApp = `https://wa.me/${numeroIrmao}?text=${mensagemCodificada}`;
+    const urlWhatsApp = `https://wa.me/${WHATSAPP_NUMBER}?text=${mensagemCodificada}`;
+    
     window.open(urlWhatsApp, '_blank');
     setCart([]);
     setIsCartVisible(false);
@@ -107,7 +108,7 @@ function HomePage() {
           cartItems={cart}
           onClose={() => setIsCartVisible(false)}
           onFinalize={handleFinalizeOrder}
-          onIncrease={handleIncreaseQuantity}
+          onIncrease={handleAddToCart}
           onDecrease={handleDecreaseQuantity}
         />
       )}

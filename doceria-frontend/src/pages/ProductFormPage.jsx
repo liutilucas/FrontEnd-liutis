@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function ProductFormPage() {
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -14,16 +16,15 @@ function ProductFormPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const isEditing = Boolean(id)
+  const isEditing = Boolean(id);
 
   useEffect(() => {
     if (isEditing) {
       setLoading(true);
       const fetchProduto = async () => {
         try {
-          const response = await fetch(`https://backend-liutis-production.up.railway.app/api/produtos/${id}`, {
-            headers: { 'Authorization': `Basic ${auth}` }
-          });
+          const response = await fetch(`${API_URL}/api/produtos/${id}`);
+          
           if (response.ok) {
             const data = await response.json();
             setNome(data.nome);
@@ -42,13 +43,19 @@ function ProductFormPage() {
       };
       fetchProduto();
     }
-  }, [id, isEditing, auth, navigate]);
+  }, [id, isEditing, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!auth) {
+      toast.error('Você precisa estar logado para realizar esta ação.');
+      return;
+    }
+
     const produtoData = { nome, descricao, preco: parseFloat(preco), imagemUrl };
-    const url = isEditing ? `https://backend-liutis-production.up.railway.app/api/produtos/${id}` : 'https://backend-liutis-production.up.railway.app/api/produtos/';
+    
+    const url = isEditing ? `${API_URL}/api/produtos/${id}` : `${API_URL}/api/produtos`;
     const method = isEditing ? 'PUT' : 'POST';
 
     try {

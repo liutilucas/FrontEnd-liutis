@@ -4,18 +4,22 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import ConfirmModal from '../components/ConfirmModal';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function AdminPage() {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(true);
   const { auth } = useAuth();
-
   const [modalState, setModalState] = useState({ isOpen: false, productId: null });
 
   useEffect(() => {
     const fetchProdutos = async () => {
-      if (!auth) return;
+      if (!auth) {
+        setLoading(false);
+        return;
+      }
       try {
-        const response = await fetch('https://backend-liutis-production.up.railway.app/api/produtos/', {
+        const response = await fetch(`${API_URL}/api/produtos`, {
           headers: { 'Authorization': `Basic ${auth}` }
         });
         if (response.ok) {
@@ -46,7 +50,7 @@ function AdminPage() {
     if (!productId) return;
 
     try {
-      const response = await fetch(`https://backend-liutis-production.up.railway.app/api/produtos/${productId}`, {
+      const response = await fetch(`${API_URL}/api/produtos/${productId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Basic ${auth}` }
       });
@@ -121,4 +125,3 @@ function AdminPage() {
 }
 
 export default AdminPage;
-
